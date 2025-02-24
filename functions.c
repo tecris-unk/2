@@ -57,6 +57,13 @@ void coutString(char* string)
     for(int i = 0; string[i] != '\0'; ++i)
         printf("%c", string[i]);
 }
+void strSize(const char *string, int* size)
+{
+    while(string[*size] != '\0' && string[*size] != EOF)
+    {
+        (*size)++;
+    }
+}
 void initFile(File *file, int n_arg, char *arg[])
 {
     char* txt =".txt\0";
@@ -77,13 +84,6 @@ void initFile(File *file, int n_arg, char *arg[])
     file->size = 0;
     enterFile(file);
     outFile(file->name);
-}
-void strSize(const char *string, int* size)
-{
-    while(string[*size] != '\0' && string[*size] != EOF)
-    {
-        (*size)++;
-    }
 }
 void openFile(File *file)
 {
@@ -162,7 +162,7 @@ void swapInFile(File *file)
 {
     rewind(file->myFile);
     int i = 0, num, num1, num2;
-    while(i < file->size -2&& fscanf(file->myFile, "%d ", &num) == 1)
+    while(i < file->size -2 && fscanf(file->myFile, "%d ", &num) == 1)
     {
         i++;
     }
@@ -170,11 +170,11 @@ void swapInFile(File *file)
     fscanf(file->myFile, "%d ", &num);
     num1 = num;
 
-    int pos2 = ftell(file->myFile);
-    fscanf(file->myFile, "%d ", &num);
+    fscanf(file->myFile, "%d", &num);
     num2 = num;
 
     writeNum(pos1, &num2, file);
+    int pos2 = ftell(file->myFile);
     writeNum(pos2, &num1, file);
 }
 

@@ -85,20 +85,19 @@ void initFile(File *file, int n_arg, char *arg[])
     enterFile(file);
     outFile(file->name);
 }
-void openFile(File *file)
+void fileCheck(FILE *f)
 {
-    file->myFile = fopen(file->name, "r+");
-    if(!file->myFile)
+    if(!f)
     {
         printf("Cant open file\n");
-        system("pause");
-        exit(0);
+        exit(1);
     }
 }
 void solve(File *file)
 {
     int ans = 0;
-    openFile(file);
+    file->myFile = fopen(file->name, "r+");
+    fileCheck(file->myFile);
     int num;
     while(fscanf(file->myFile,"%d ", &num) == 1)
     {
@@ -118,13 +117,10 @@ void enterFile(File *file)
 {
     printf("enter size of the array\n");
     setNumber(&file->size);
+
     file->myFile = fopen(file->name, "w");
-    if(!file->myFile)
-    {
-        printf("Cant open file\n");
-        system("pause");
-        exit(0);
-    }
+    fileCheck(file->myFile);
+
     printf("enter array elements\n");
     int num;
     for(int i = 0; i < file->size; ++i)
@@ -138,12 +134,8 @@ void enterFile(File *file)
 void outFile(char* filename)
 {
     FILE *f = fopen(filename, "r");
-    if(!f)
-    {
-        printf("Cant open file\n");
-        system("pause");
-        exit(0);
-    }
+    fileCheck(f);
+
     int num;
     while (fscanf(f, "%d ", &num) == 1)
     {
@@ -153,7 +145,7 @@ void outFile(char* filename)
     fclose(f);
 }
 
-void writeNum(int pos, int *num, File *file)
+void writeNum(int pos, const int *num, File *file)
 {
     fseek(file->myFile, pos, SEEK_SET);
     fprintf(file->myFile, "%d ", *num);
@@ -162,11 +154,12 @@ void swapInFile(File *file)
 {
     rewind(file->myFile);
     int i = 0, num, num1, num2;
-    while(i < file->size -2 && fscanf(file->myFile, "%d ", &num) == 1)
+    while(i < file->size - 2 && fscanf(file->myFile, "%d ", &num) == 1)
     {
         i++;
     }
     int pos1 = ftell(file->myFile);
+
     fscanf(file->myFile, "%d ", &num);
     num1 = num;
 

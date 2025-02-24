@@ -27,18 +27,7 @@ void setNumber(int* number)
     }while(isInvalid == 1);
     rewind(stdin);
 }
-void scanString(char **string, int *size)
-{
-    *string = NULL;
-    resize(string, 0);
-    int c;
-    for(int i=0;(c=getchar())!='\n' && c != EOF ;++i)
-    {
-        *size = i+1;
-        resize(string, *size);
-        (*string)[i] = (char) c;
-    }
-}
+
 void resize(char** array, int size)
 {
     char *temp = NULL;
@@ -163,11 +152,7 @@ void outFile(char* filename)
     printf("\n");
     fclose(f);
 }
-void readNum(int pos, int *num, File *file)
-{
-    fseek(file->myFile, pos, SEEK_SET);
-    fscanf(file->myFile, "%d ", num);
-}
+
 void writeNum(int pos, int *num, File *file)
 {
     fseek(file->myFile, pos, SEEK_SET);
@@ -184,10 +169,11 @@ void swapInFile(File *file)
     int pos1 = ftell(file->myFile);
     fscanf(file->myFile, "%d ", &num);
     num1 = num;
+
     int pos2 = ftell(file->myFile);
     fscanf(file->myFile, "%d ", &num);
     num2 = num;
-    printf("%d %d\n", num1, num2);
+
     writeNum(pos1, &num2, file);
     writeNum(pos2, &num1, file);
 }

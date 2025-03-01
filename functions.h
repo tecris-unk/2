@@ -7,16 +7,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "mystring.h"
 #include "structures.h"
 
-void resize(char** array, int size);
-void strCat(char** string, int size, const char* sumString);
-void coutString(char* string);
-void initFile(File *file, int n_arg, char *arg[]);
-void strSize(const char *string, int* size);
-void fileCheck(FILE *f);
 void setNumber(int* number);
+void initFile(File *file, int n_arg, char *arg[]);
+void fileCheck(FILE *f);
 void outFile(char* filename);
 void enterFile(File *file);
 void writeNum(int pos, const int *num, File *file);

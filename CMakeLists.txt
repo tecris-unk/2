@@ -7,4 +7,6 @@ add_executable(2 main.c
         structures.h
         functions.h
         functions.c
+        mystring.c
+        mystring.h
 )

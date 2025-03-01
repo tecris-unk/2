@@ -28,42 +28,6 @@ void setNumber(int* number)
     rewind(stdin);
 }
 
-void resize(char** array, int size)
-{
-    char *temp = NULL;
-    temp = (char*)realloc(*array, sizeof(char) * (size+1));
-    if(temp == NULL){
-        printf("memory cant be allocated\n");
-        free(temp);
-        exit(1);
-    }
-    else{
-        *array = (char*)temp;
-        (*array)[size] = '\0';
-    }
-}
-void strCat(char** string, int size, const char* sumString)
-{
-    int i = 0;
-    while(sumString[i]!='\0' && sumString[i] != EOF)
-    {
-        resize(string, size+i+1);
-        (*string)[size+i] = sumString[i];
-        i++;
-    }
-}
-void coutString(char* string)
-{
-    for(int i = 0; string[i] != '\0'; ++i)
-        printf("%c", string[i]);
-}
-void strSize(const char *string, int* size)
-{
-    while(string[*size] != '\0' && string[*size] != EOF)
-    {
-        (*size)++;
-    }
-}
 void initFile(File *file, int n_arg, char *arg[])
 {
     char* txt =".txt\0";
@@ -98,11 +62,10 @@ void solve(File *file)
     int ans = 0;
     file->myFile = fopen(file->name, "r+");
     fileCheck(file->myFile);
+
     int num;
     while(fscanf(file->myFile,"%d ", &num) == 1)
-    {
         ans += num;
-    }
 
     printf("Sum is %d\n", ans);
 

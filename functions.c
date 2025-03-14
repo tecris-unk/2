@@ -63,13 +63,14 @@ void solve(File *file)
     file->myFile = fopen(file->name, "r+");
     fileCheck(file->myFile);
 
-    int num;
+    int num, size = 0;
     while(fscanf(file->myFile,"%d ", &num) == 1)
+    {
         ans += num;
-
+        size++;
+    }
     printf("Sum is %d\n", ans);
-
-    if(file->size > 1){swapInFile(file);}
+    if(file->size > 1){swapInFile(file, size-2, size-1);}
 
     printf("Here is your changed file\n");
     fclose(file->myFile);
@@ -113,27 +114,36 @@ void writeNum(int pos, const int *num, File *file)
     fseek(file->myFile, pos, SEEK_SET);
     fprintf(file->myFile, "%d ", *num);
 }
-void swapInFile(File *file)
+
+void swapInFile(File *file, int pos1, int pos2)
 {
     rewind(file->myFile);
-    int i = 0, num, num1, num2;
-    while(i < file->size - 2 && fscanf(file->myFile, "%d ", &num) == 1)
+    if(pos1 > pos2){pos1^=(pos2^=(pos1^=pos2));}
+    int i = 0, num, num1, num2, posBytes1, posBytes2;
+    while(i < pos2 && fscanf(file->myFile, "%d ", &num) == 1)
+    {
+        i++;
+        if(i == pos1){
+            posBytes1 = ftell(file->myFile);
+            fscanf(file->myFile, "%d ", &num);
+            i++;
+            num1 = num;
+        }
+        if(i == pos2)
+        {
+            fscanf(file->myFile, "%d ", &num);
+            num2 = num;
+            writeNum(posBytes1, &num2, file);
+        }
+    }
+    i = pos1+1;
+    while(i < pos2 && fscanf(file->myFile, "%d ", &num) == 1)
     {
         i++;
     }
-    int pos1 = ftell(file->myFile);
-
-    fscanf(file->myFile, "%d ", &num);
-    num1 = num;
-
-    fscanf(file->myFile, "%d", &num);
-    num2 = num;
-
-    writeNum(pos1, &num2, file);
-    int pos2 = ftell(file->myFile);
-    writeNum(pos2, &num1, file);
+    posBytes2 = ftell(file->myFile);
+    writeNum(posBytes2, &num1, file);
 }
-
 void deleteFile(File *file)
 {
     remove(file->name);

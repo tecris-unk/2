@@ -39,3 +39,27 @@ void strCat(char** string, int size, const char* sumString)
         i++;
     }
 }
+void erase(int *size, char** array, int i, int length)
+{
+    if(i < 0 || length <= 0) {return;}
+    if(i + length > *size){length = *size - i;}
+
+    for (; i + length < *size; ++i)
+        (*array)[i] = (*array)[i + length];
+
+    *size -= length;
+    resize(array, *size);
+}
+
+void scanString(char **string, int *size)
+{
+    *string = NULL;
+    resize(string, 0);
+    int c;
+    for(int i=0;(c=getchar())!='\n' && c != EOF ;++i)
+    {
+        *size = i+1;
+        resize(string, *size);
+        (*string)[i] = (char) c;
+    }
+}

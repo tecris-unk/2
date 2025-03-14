@@ -18,7 +18,7 @@ void enterFile(File *file);
 void writeNum(int pos, const int *num, File *file);
 void solve(File *file);
 void deleteFile(File *file);
-void swapInFile(File *file);
+void swapInFile(File *file, int pos1, int pos2);
 
 
 #endif //INC_2_FUNCTIONS_H
